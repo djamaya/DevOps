@@ -1,0 +1,8 @@
+---
+- hosts: endpoint
+  tasks:
+    - name: Deploy Product
+      ansible.builtin.git:
+        repo: https://github.com/djamaya/DevOps.git
+        dest: /opt/devops_deploy_v1
+        # version: v1.0
