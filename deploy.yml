@@ -6,3 +6,7 @@
         repo: https://github.com/djamaya/DevOps.git
         dest: /opt/devops_deploy_v1
         # version: v3.0
+    - name: copy test.sh as test_copy.sh in /opt
+      copy: 
+        src: /opt/devops_deploy_v1/test.sh
+        dest: /opt/test_copy.sh
