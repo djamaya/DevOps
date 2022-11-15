@@ -10,3 +10,6 @@
       copy: 
         src: /opt/devops_deploy_v1/test.sh
         dest: /opt/test_copy.sh
+    - name: Print message
+      debug:
+        msg: Hello Ansible World
