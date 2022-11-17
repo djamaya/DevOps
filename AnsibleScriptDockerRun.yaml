@@ -1,0 +1,69 @@
+---
+- hosts: endpoint
+  become: true
+  tasks:
+    - name: installa dipendenze
+      apt:
+        name: "{{item}}"
+        state: present
+        update_cache: yes
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - gnupg-agent
+        - software-properties-common
+    - name: aggiungi chiave GPG
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: aggiungi repository docker
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+    - name: installa docker
+      apt:
+        name: "{{item}}"
+        state: latest
+        update_cache: yes
+      loop:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+    - name: assicurati che docker sia attivo
+      service:
+        name: docker
+        state: started
+        enabled: yes
+    - name: restart docker
+      service: 
+        name: docker 
+        state: restarted
+
+
+
+        # to push files from HERE to GitHub:
+        # git add .
+        # git commit -m 'YourMessageHere'
+        # git push
+
+
+        # To run docker you need to create Dockerfile to build image:
+
+        # to build an image:
+        # - put content in "Dockerfile" which points what to be installed, example:
+        # ================================================================
+        # FROM python:latest
+
+        # RUN pip install ansible
+
+        # CMD bash    
+        # =====================================================
+        # to build the image use command (execute this command in the same directory where Dockerfile is):
+        # docker build -t ansible:mytag .                                (dont forget to copy the "   .")
+
+
+        # to run the docker container use:
+        # docker images (shows all images)
+        # then:
+        # docker run -it ansible:mytag   (ansible = docker image name; mytag = the tag that you used while creating the image)

@@ -7,10 +7,20 @@
         dest: /opt/devops_deploy_v1
         # version: v3.0
     - name: copy test.sh as test_copy.sh in /opt
-      copy: 
+      copy:
         src: /opt/devops_deploy_v1/test.sh
         dest: /opt/test_copy.sh
     - name: Print message
       debug:
         msg: Hello Ansible World
-  
+    - name: Install apache httpd
+      ansible.builtin.apt:
+        name: apache2
+      become: 'yes'
+      become_user: root
+    - name: ensure apache is running
+      ansible.builtin.systemd:
+        name: httpd
+        state: started
+      become: 'yes'
+      become_user: root
